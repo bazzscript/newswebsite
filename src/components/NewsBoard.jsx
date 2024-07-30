@@ -24,7 +24,9 @@ export const NewsBoard = ({ category }) => {
                         apiKey: import.meta.env.VITE_API_KEY
                     },
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Referer': 'http://localhost',
+                        'Origin': 'http://localhost'
                     }
                 });
                 setArticles(response.data.articles);
