@@ -25,8 +25,6 @@ export const NewsBoard = ({ category }) => {
                     },
                     headers: {
                         'Content-Type': 'application/json',
-                        'Referer': 'http://localhost',
-                        'Origin': 'http://localhost'
                     }
                 });
                 setArticles(response.data.articles);
