@@ -1,18 +1,41 @@
-import { useEffect } from "react"
-import { useState } from "react"
+import axios from "axios"
+import { useState, useEffect } from "react"
 import { NewsItem } from "./NewsItem"
 
 export const NewsBoard = ({ category }) => {
     const [articles, setArticles] = useState([])
 
+    // useEffect(() => {
+    //     let url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${import.meta.env.VITE_API_KEY}`
+    //     fetch(url)
+    //         .then((res) => res.json())
+    //         .then((data) => {
+    //             setArticles(data.articles)
+    //         })
+    // }, [category])
+
     useEffect(() => {
-        let url = `https://newsapi.org/v2/top-headlines?country=us&category=${category}&apiKey=${import.meta.env.VITE_API_KEY}`
-        fetch(url)
-            .then((res) => res.json())
-            .then((data) => {
-                setArticles(data.articles)
-            })
-    }, [category])
+        const fetchArticles = async () => {
+            try {
+                const response = await axios.get(`https://newsapi.org/v2/top-headlines`, {
+                    params: {
+                        country: 'us',
+                        category: category,
+                        apiKey: import.meta.env.VITE_API_KEY
+                    },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                setArticles(response.data.articles);
+            } catch (error) {
+                console.error("Error fetching the news articles:", error);
+            }
+        };
+
+        fetchArticles();
+    }, [category]);
+
     return (
         <>
             <h2 className="text-center">
